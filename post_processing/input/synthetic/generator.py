@@ -1,0 +1,62 @@
+import numpy as np
+from mpi4py import MPI
+import os
+import sys
+import json 
+import time
+
+# Require configuration file
+if len(sys.argv) != 2:
+    sys.stderr.write("Usage: %s CONFIG_FILE\n" % (sys.argv[0]))
+    sys.exit(1)
+
+configfile = sys.argv[1]
+
+# MPI initialization
+comm = MPI.COMM_WORLD
+# get number of processes
+procs = comm.Get_size()
+# get process id
+rank = comm.Get_rank()
+
+# load configuration file
+with open(configfile) as config_file:
+    config = json.load(config_file)
+
+# get configuration parameters
+steps = int(config["num_cycles"])
+exp=8;
+length = int(config["size"])/(procs*exp);
+
+# write data to global file system
+log_name = "/p/lscratchd/do7/log/log_"+str(rank)
+log_file = open(log_name, 'a')
+
+for i in xrange(steps):
+	user = os.environ['USER']
+	hadoop_home = os.environ['HADOOP_HOME']
+	step = (i+1)*int(config["frequency"])
+	end1 = 0
+	end2 = 0
+	for j in xrange(exp):
+		data = np.random.uniform(low=0.0, high=5.0, size=(length))
+
+		# save local data to local NVM
+		
+		data_name = "/l/ssd/data_test_"+str(rank)+"_"+str(j)+"_"+str(step)+".npy"
+
+		start1 = time.time()
+		data.tofile(data_name)
+		end1 = time.time() - start1
+		
+		# copy local data to HDFS 
+
+		start2 = time.time()
+		os.system(str(hadoop_home) + "/bin/hdfs dfs -put " + data_name + " /")
+		end2 = time.time() - start2
+
+	log_file.write("Step %s :\n" % str(step))
+	log_file.write("nvm_write=%s\n" % str(end1))
+	log_file.write("hdfs_write=%s\n" % str(end2))
+
+log_file.close()

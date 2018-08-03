@@ -1,0 +1,11 @@
+{
+ "event-dir":"/",
+ "event-content":"data_test_*",
+ "event-type":"hdfs-dir",
+ "event-cycle":10,
+ "event-size":0,
+ "event-numfiles":64,
+ "pegasus-args": "/g/g92/do7/ascent/insitu/analysis/plan_dax.sh",
+ "event-script": "/g/g92/do7/ascent/insitu/analysis/dax_generator.sh",
+ "event-dax-dir": "/g/g92/do7/ascent/insitu/analysis/workflows"
+}

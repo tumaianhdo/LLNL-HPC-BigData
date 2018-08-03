@@ -1,0 +1,4 @@
+#!/bin/bash
+DIR=/g/g92/do7/ascent/insitu/test/trigger
+echo /g/g92/do7/ascent/insitu/test/trigger
+echo "Pegasus has triggered an event" >> /g/g92/do7/ascent/insitu/test/trigger/test.out

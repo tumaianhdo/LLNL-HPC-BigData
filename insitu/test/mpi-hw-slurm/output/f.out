@@ -1,0 +1,3 @@
+[Master] Total number of MPI processes 2
+[Master] Hello world!  I am process number: 0 on host catalyst174
+[Worker] Hello world!  I am process number: 1 on host catalyst175
