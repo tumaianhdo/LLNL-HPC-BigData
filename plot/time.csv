@@ -1,0 +1,12 @@
+﻿in-situ,nvm,8,139,25,15,4,17,4,21,4
+in-situ,lustre,8,119,14,11,0,12,0,13,0
+in-situ,nvm,64,270,138,48,13,39,14,38,11
+in-situ,lustre,64,235,99,47,0,46,0,60,0
+in-situ,nvm,512,1558,1116,432,14,386,14,299,48
+in-situ,lustre,512,7137,692,2557,1,4488,0,6375,0
+post-processing,nvm,8,113,26,20,7,,,,
+post-processing,lustre,8,88,15,15,0,,,,
+post-processing,nvm,64,333,133,118,29,,,,
+post-processing,lustre,64,274,98,118,0,,,,
+post-processing,nvm,512,2310,1388,836,30,,,,
+post-processing,lustre,512,2666,688,1917,1,,,,
