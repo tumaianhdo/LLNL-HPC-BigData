@@ -1,13 +1,17 @@
 #!/bin/bash
 
-set -e
-
 if [ $# -ne 1 ]; then
     echo "Usage: $0 DAXFILE"
     exit 1
 fi
 
 DAXFILE=$1
+
+if [ x${POPR_WORK_HOME} == x ]; then
+    echo "Please set POPR_WORK_HOME"
+    exit
+fi
+
 DIR=$(cd $(dirname $0) && pwd)
 
 export WF_DIR=$(cd $(dirname $0) && pwd)
@@ -15,8 +19,8 @@ export WF_DIR=$(cd $(dirname $0) && pwd)
 cat > $WF_DIR/bin/ascent-execute-script.sh <<EOF
 #!/bin/bash
 # before launching the job set environment variable
-source \${HOME}/my-job-env
-source \${HOME}/set-env -hs
+source \${POPR_WORK_HOME}/magpie/my-job-env
+source \${POPR_WORK_HOME}/magpie/set-env.sh -hs
 # lauch the job using srun
 srun --jobid=\${MAGPIE_JOB_ID} -N \${HADOOP_SLAVE_COUNT} --exclude=\${HADOOP_MASTER_NODE} cloverleaf3d_par
 EOF
@@ -26,8 +30,8 @@ chmod +x  $WF_DIR/bin/ascent-execute-script.sh
 cat > $WF_DIR/bin/synthetic-execute-script.sh <<EOF
 #!/bin/bash
 # before launching the job set environment variable
-source \${HOME}/my-job-env
-source \${HOME}/set-env -hs
+source \${POPR_WORK_HOME}/magpie/my-job-env
+source \${POPR_WORK_HOME}/magpie/set-env.sh -hs
 # lauch the job using srun
 srun --jobid=\${MAGPIE_JOB_ID} -N \${HADOOP_SLAVE_COUNT} -n \${HADOOP_SLAVE_COUNT} -c 1 --exclude=\${HADOOP_MASTER_NODE} python "\$@"
 EOF
@@ -56,14 +60,14 @@ chmod +x  $WF_DIR/bin/synthetic-execute-script.sh
 
 cat > $DIR/bin/spark-execute-script.sh <<EOF
 #!/bin/bash
-source \${HOME}/my-job-env
+source \${POPR_WORK_HOME}/magpie/my-job-env
 \${SPARK_HOME}/bin/spark-submit --master spark://\${SPARK_MASTER_NODE}:\${SPARK_MASTER_PORT} --deploy-mode client "\$@"
 EOF
 chmod +x  $DIR/bin/spark-execute-script.sh
 
 cat > $DIR/bin/clean-up-script.sh <<EOF
 #!/bin/bash
-source \${HOME}/my-job-env
+source \${POPR_WORK_HOME}/magpie/my-job-env
 if [ "\$1" = "nvm" ]; then
 	\${HADOOP_HOME}/bin/hdfs dfs -rm -f "/\$2"
 	while read slave; do
@@ -81,7 +85,7 @@ chmod +x  $DIR/bin/clean-up-script.sh
 # This environment variable is used in all of the catalogs to
 # determine the paths to transformations, files, and input/output dirs
 #export PEGASUS_LLNL_WORK_HOME=$HOME/pegasus-llnl/
-source $HOME/set-env -p
+source ${POPR_WORK_HOME}/magpie/set-env.sh -p
 
 
 
