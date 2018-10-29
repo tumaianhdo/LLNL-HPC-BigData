@@ -13,8 +13,8 @@
  zmax=10.0
  initial_timestep=0.04
  max_timestep=0.04
- end_step=1
+ end_step=40
  test_problem 1
 
- visit_frequency=1
+ visit_frequency=20
 *endclover

@@ -29,7 +29,7 @@
 # Node count.  Node count should include one node for the
 # head/management/master node.  For example, if you want 8 compute
 # nodes to process data, specify 9 nodes below.
-#SBATCH --nodes=9
+#SBATCH --nodes=3
 
 # If including Zookeeper, include expected Zookeeper nodes.  For
 # example, if you want 8 Hadoop compute nodes and 3 Zookeeper nodes,
@@ -238,7 +238,8 @@ export MAGPIE_REMOTE_CMD_OPTS=""
 
 # Necessary for most projects
 # export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.171-8.b10.el7_5.x86_64/"
-export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.171-8.b10.el7_5.x86_64/"
+#export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.171-8.b10.el7_5.x86_64/"
+export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.181-3.b13.el7_5.x86_64/"
 
 # MAGPIE_PYTHON path used for:
 # - Spark PySpark path

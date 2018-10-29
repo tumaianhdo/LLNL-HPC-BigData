@@ -12,11 +12,9 @@ mesh_data = ascent_data()
 # fetch the numpy array for the energy field values
 e_vals = mesh_data["fields/energy/values"]
 d_vals = mesh_data["fields/density/values"]
-p_vals = mesh_data["fields/pressure/values"]
-# print len(e_vals)
-# print len(d_vals)
-# print len(p_vals)
+p_vals = mesh_data["fields/pressure/values"]     
 
+# concate arrays of field values to row-majored arrays
 data = np.column_stack((e_vals, d_vals, p_vals))
 
 # duplicate data
@@ -26,8 +24,6 @@ data = np.column_stack((e_vals, d_vals, p_vals))
 # data = np.concatenate((data, data), axis=1)
 
 
-# print data 
-
 # get the current cycle
 cycle = mesh_data["state/cycle"]
 
@@ -35,23 +31,13 @@ cycle = mesh_data["state/cycle"]
 rank = mesh_data["state/domain_id"]
 
 # save local data to local NVM
-user = os.environ['USER']
-
-# e_data_name = "/p/lscratchd/"+user+"/data/data_test_e_"+str(rank)+"_"+str(cycle)+".npy"
-# d_data_name = "/p/lscratchd/"+user+"/data/data_test_d_"+str(rank)+"_"+str(cycle)+".npy"
-# p_data_name = "/p/lscratchd/"+user+"/data/data_test_p_"+str(rank)+"_"+str(cycle)+".npy"
-
-# e_vals.tofile(e_data_name)
-# d_vals.tofile(d_data_name)
-# p_vals.tofile(p_data_name)
-
-data_name = "/p/lscratchd/"+user+"/data/data_test_"+str(rank)+"_"+str(cycle)+".npy"
+data_name = "/l/ssd/data_test_"+str(rank)+"_"+str(cycle)+".npy"
+# np.save(data_name , e_vals)
 data.tofile(data_name)
 
-
 # copy local data to HDFS 
-# hadoop_home = os.environ['HADOOP_HOME']
-# os.system(str(hadoop_home) + "/bin/hdfs dfs -put " + data_name + " /")
+hadoop_home = os.environ['HADOOP_HOME']
+os.system(str(hadoop_home) + "/bin/hdfs dfs -put " + data_name + " /")
 
 
 # Improvement: copying to HDFS in background

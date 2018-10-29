@@ -1,10 +1,4 @@
-#!/bin/sh
-
-if [ x${POPR_WORK_HOME} == x ]; then
-    echo "Please set POPR_WORK_HOME"
-    exit
-fi
-
+#!/bin/bash
 OPTIONS=hspyc
 LONGOPTIONS=hadoop,spark,pegasus,python,condor
 PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTIONS --name "$0" -- "$@")
@@ -67,13 +61,14 @@ while true; do
 	esac
 done
 
-# if [[ $# -ne 1 ]]; then
-# 	echo "$0: index is required"
-# 	exit 4
-# fi
-
-source ${POPR_WORK_HOME}/magpie/my-job-env
-
+#if [[ $# -ne 1 ]]; then
+#	echo "$0: index is required"
+#	exit 4
+#fi
+#echo $1
+source ${HOME}/my-job-env
+echo $condor
+echo $pegasus
 
 if [ "$hadoop" = "y" ]; then
 	export PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}
@@ -84,16 +79,22 @@ if [ "$spark" = "y" ]; then
 fi 
 
 if [ "$condor" = "y" ]; then
-	source ${POPR_WORK_HOME}/software/condor/condor.sh
+	source ${HOME}/software/install/condor/condor.sh
 fi 
 
 if [ "$pegasus" = "y" ]; then
-	export PATH=${POPR_WORK_HOME}/software/pegasus/bin:${PATH}
-	export PYTHONPATH=${POPR_WORK_HOME}/software/pegasus/lib64/python2.7/site-packages:${PYTHONPATH}
-	export MANPATH=${POPR_WORK_HOME}/software/pegasus/share/man:${MANPATH}
+	export PATH=${HOME}/software/install/pegasus/bin:${PATH}
+	export PYTHONPATH=${HOME}/software/install/pegasus/lib64/python2.7/site-packages:${PYTHONPATH}
+	export MANPATH=${HOME}/software/install/pegasus/share/man:${MANPATH}
 fi 
 
 if [ "$python" = "y" ]; then
 	export PYTHONPATH=${HOME}/.local/lib/python2.7/site-packages:${PYTHONPATH}
 	export PATH=${HOME}/.local/bin:${PATH}
 fi
+#export PATH=${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${SPARK_HOME}/bin:${SPARK_HOME}/sbin:$PATH
+#SOFT_DIR=${HOME}/software/install
+#source /l/ssd/condor/condor.sh
+#export PATH=${SOFT_DIR}/pegasus/bin:$PATH
+#export PYTHONPATH=${SOFT_DIR}/pegasus/lib64/python2.7/site-packages:${PYTHONPATH}
+#export MANPATH=${SOFT_DIR}/pegasus/share/man:${MANPATH}

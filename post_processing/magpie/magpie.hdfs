@@ -29,7 +29,7 @@
 # Node count.  Node count should include one node for the
 # head/management/master node.  For example, if you want 8 compute
 # nodes to process data, specify 9 nodes below.
-#SBATCH --nodes=3
+#SBATCH --nodes=9
 
 # If including Zookeeper, include expected Zookeeper nodes.  For
 # example, if you want 8 Hadoop compute nodes and 3 Zookeeper nodes,
@@ -61,8 +61,6 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --exclusive
 #SBATCH --no-kill
-
-echo $1
 
 # Need to tell Magpie how you are submitting this job
 export MAGPIE_SUBMISSION_TYPE="sbatchsrun"
@@ -124,7 +122,7 @@ export MAGPIE_SCRIPT_PATH="$(pwd)/magpie-setup-script.sh"
 # generated until the job has launched.  You won't be able to use them
 # here.
 #
-export MAGPIE_SCRIPT_ARGS="$1" 
+# export MAGPIE_SCRIPT_ARGS="" 
 
 # Specify script startup / shutdown time window
 #
@@ -215,7 +213,7 @@ export MAGPIE_SCRIPT_ARGS="$1"
 # can be sourced easily if you will be running your job interactively.
 # It can also be loaded or used by other job scripts.
 #
-export MAGPIE_ENVIRONMENT_VARIABLE_SCRIPT="$(pwd)/my-job-env"
+export MAGPIE_ENVIRONMENT_VARIABLE_SCRIPT="${HOME}/my-job-env"
 
 # Environment Variable Shell Type
 #
