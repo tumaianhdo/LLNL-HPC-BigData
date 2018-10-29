@@ -20,20 +20,22 @@ condor_q
 condor_status
 pegasus-status
 ```
-3. Modify the config files for your in-situ pipeline to setting the trigger configurations. There are two config files event-config.{nvm/lustre} corresponding to each data placement setup (on NVRAM or on Lustre) under the directory in-situ/config. The structure of the files under JSON format as follows:
+3. Modify the simulation config file if there is a need.
+You can find the Cloverleaf config file as insitu/simulation/input
+4. Modify the config files for your in-situ pipeline to setting the trigger configurations. There are two config files event-config.{nvm/lustre} corresponding to each data placement setup (on NVRAM or on Lustre) under the directory in-situ/config. The structure of the files under JSON format as follows:
 
 event-config.nvm template
-{
- "event-dir":"/",
- "event-content":"data_test_*",
- "event-type":"hdfs-dir",
- "event-cycle":20,
- "event-size":0,
- "event-numfiles":2,
- "pegasus-args": "/g/g92/do7/ascent/insitu/analysis/plan_dax.sh",
- "event-script": "/g/g92/do7/ascent/insitu/analysis/dax_generator.sh",
- "event-dax-dir": "/g/g92/do7/ascent/insitu/analysis/workflows"
-}
+> {
+> "event-dir":"/",
+> "event-content":"data_test_*",
+> "event-type":"hdfs-dir",
+> "event-cycle":20,
+> "event-size":0,
+> "event-numfiles":2,
+> "pegasus-args": "/g/g92/do7/ascent/insitu/analysis/plan_dax.sh",
+> "event-script": "/g/g92/do7/ascent/insitu/analysis/dax_generator.sh",
+> "event-dax-dir": "/g/g92/do7/ascent/insitu/analysis/workflows"
+>}
 
 event-config.lustre template
 >{
@@ -59,5 +61,11 @@ The meaning of JSON fields:
 - "event-dax-dir": direct path to the directory keeping intermediate Pegasus files of every events triggered
 
 Please make sure to set your desired "event-cycle" and "event-numfiles" fields 
-4. 
+
+5. Run the insitu pipeline
+```
+cd insitu/scripts
+./in-situ {data_placement}
+```
+Setting {data_placement} to 'nvm' if you want to run on NVRAM and 'lustre' if you want to run Lustre.
 
