@@ -14,6 +14,7 @@ sbatch --ip-isolate=yes magpie.hdfs
 It is able to adjust the number of cluster nodes by modifying the line #SBATCH --nodes={num_nodes} in the Magpie script, where num_nodes specify the number of nodes that you want to deploy for the cluster. 
 3. Install dependency prequisites, such as Condor, Pegasus and export necessary environment varibles on master node of the cluster
 ```
+cp -r software ${HOME}
 mrsh {master_node}
 cd ${INST_WORK_HOME}/magpie
 ./magpie-setup-script.sh 
