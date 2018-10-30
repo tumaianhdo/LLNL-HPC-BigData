@@ -1,0 +1,43 @@
+# This is the transformation catalog. It lists information about each of the
+# executables that are used by the workflow.
+
+tr preprocess {
+    site {{sitename}} {
+        pfn "{{workflowdir}}/bin/preprocess"
+        arch "{{arch}}"
+        os "{{os}}"
+        type "INSTALLED"
+
+{% if tutorial_setup == "bw-glite" %}
+	profile pegasus "cores" "1"
+	profile pegasus "ppn" "1"
+{% endif %}
+    }
+}
+
+tr findrange {
+    site {{sitename}} {
+        pfn "{{workflowdir}}/bin/findrange"
+        arch "{{arch}}"
+        os "{{os}}"
+        type "INSTALLED"
+{% if tutorial_setup == "bw-glite" %}
+        profile pegasus "cores" "1"
+        profile pegasus "ppn" "1"
+{% endif %}
+
+    }
+}
+
+tr analyze {
+    site {{sitename}} {
+        pfn "{{workflowdir}}/bin/analyze"
+        arch "{{arch}}"
+        os "{{os}}"
+        type "INSTALLED"
+{% if tutorial_setup == "bw-glite" %}
+        profile pegasus "cores" "1"
+        profile pegasus "ppn" "1"
+{% endif %}
+    }
+}
