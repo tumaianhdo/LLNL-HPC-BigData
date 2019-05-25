@@ -1,4 +1,4 @@
-# hpc-bigdata
+# llnl-hpc-bigdata
 ## Howto
 ### In-situ
 1. Get into the main directory and export ${INST_WORK_HOME} evironmental variable
